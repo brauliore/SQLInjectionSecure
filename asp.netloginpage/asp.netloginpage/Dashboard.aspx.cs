@@ -15,7 +15,6 @@ namespace asp.netloginpage
                 Response.Redirect("login.aspx");
             lblUserDetails.Text = "Username: " + Session["username"];
             lblUserPass.Text = "Password: " + Session["password"];
-            DataList1.DataSource = Session["dt"];
             DataList1.DataBind();
         }
 

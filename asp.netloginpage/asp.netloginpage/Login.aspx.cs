@@ -32,18 +32,16 @@ namespace asp.netloginpage
             using (SqlConnection sqlCon = new SqlConnection(@"Data Source=DESKTOP-N2GDKAV;initial Catalog=LoginDB;Integrated Security=True;"))
             {
                 sqlCon.Open();
-                string query = "SELECT * FROM tblUser WHERE username= @username AND password= @password";
+                sqlCon.Open();
+                string query = "SELECT COUNT(1) FROM tblUser WHERE username=@username AND password=@password";
                 SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
                 sqlCmd.Parameters.AddWithValue("@username", txtUserName.Text.Trim());
                 sqlCmd.Parameters.AddWithValue("@password", txtPassword.Text.Trim());
-                SqlDataAdapter da = new SqlDataAdapter(sqlCmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                if (dt.Rows.Count > 0)
+                int count = Convert.ToInt32(sqlCmd.ExecuteScalar());
+                if (count == 1)
                 {
                     Session["username"] = username;
                     Session["password"] = password;
-                    Session["dt"] = dt;
                     Response.Redirect("Dashboard.aspx");
                 }
                 else
